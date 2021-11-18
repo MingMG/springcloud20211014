@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.babei.shiro.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.babei.shiro.entity.User">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <!--角色信息-->
+        <collection property="roles" javaType="list" ofType="com.babei.shiro.entity.Role">
+            <id column="id" property="id"/>
+            <result column="rname" property="name"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findByUsername" resultType="String" resultMap="userMap">
+    SELECT
+	    u.id uid,
+	    u.username,
+	    r.id,
+	    r.name rname
+    FROM
+	    USER u
+	    LEFT JOIN user_role ur ON u.id = ur.userId
+	    LEFT JOIN role r ON ur.roleId = r.id
+    WHERE
+	    u.username = #{userName}
+    </select>
+
+    <select id="findPermsByRoleId" resultType="com.babei.shiro.entity.Perms">
+    SELECT
+	    p.id,
+	    p.NAME,
+	    p.url,
+	    r.NAME
+    FROM
+	    role r
+	    LEFT JOIN role_perms rp ON r.id = rp.roleId
+	    LEFT JOIN perms p ON rp.permsId = p.id
+    WHERE
+	    r.id = #{id}
+    </select>
+</mapper>
