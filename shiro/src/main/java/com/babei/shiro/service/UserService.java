@@ -15,3 +15,4 @@ public interface UserService extends IService<User> {
     //根据角色id查询权限集合
     List<Perms> findPermsByRoleId(@Param("id") int id);
 }
+
