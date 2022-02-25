@@ -27,5 +27,9 @@ public class ProductController {
         return "word";
     }
 
-
+    @GetMapping("/word2")
+    @ApiOperation(value = "访客模式下订单列表")
+    public String word2() {
+        return "word2";
+    }
 }
